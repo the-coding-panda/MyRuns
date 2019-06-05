@@ -21,7 +21,7 @@ namespace MyRuns.Web.Services
 
             while (true)
             {
-                var newActivites = client.Activities.GetAthleteActivities(page, 50).Result;
+                var newActivites = client.Activities.GetAthleteActivities(page, 200).Result;
                 if (newActivites.Count == 0)
                 {
                     break;
@@ -33,11 +33,29 @@ namespace MyRuns.Web.Services
             }
 
             viewModel.AddRange(activities
-                    .Where(r => r.Distance > 9500 && r.Distance < 10500)
+                    .Where(r => FilterDistance(r.Distance, distanceType))
                     .OrderBy(r=>r.ElapsedTime)
                     .Select(r => new ActivityViewModel(r)));
 
             return viewModel;
+        }
+
+        private bool FilterDistance(float distance, DistanceType distanceType)
+        {
+            switch (distanceType)
+            {
+                case DistanceType.FiveKilometers:
+                    return distance > 4500 && distance < 5500;
+                case DistanceType.TenKilometers:
+                    return distance > 9500 && distance < 10500;
+                case DistanceType.HalfMarathon:
+                    return distance > 210500 && distance < 211500;
+                case DistanceType.Marathon:
+                    return distance > 420500 && distance < 422500;
+                default:
+                    return false;
+            }
+
         }
     }
 }

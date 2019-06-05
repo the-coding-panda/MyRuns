@@ -17,9 +17,13 @@
 @{
     foreach (var activity in Model.Activities)
     {
-        <div class="row">
-            <p><b>@activity.Name</b></p>
-            <p>@activity.Distance <i>@activity.Start</i></p>
-        </div>
+                <div class="card" style="width: 40rem;">
+                    <div class="card-block">
+                        <h4 class="card-title">@activity.Time</h4>
+                        <p class="card-text">@activity.Name</p>
+                        <p>@activity.Distance <i>@activity.Start</i></p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
     }
 }
