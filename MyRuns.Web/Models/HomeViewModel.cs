@@ -11,10 +11,11 @@ namespace MyRuns.Web.Models
         public HomeViewModel(bool isAuthenticated)
         {
             IsAuthenticated = isAuthenticated;
+            Activities = new List<ActivityViewModel>();
         }
 
         public bool IsAuthenticated { get; private set; }
 
-        public IList<ActivityViewModel> Activities { get; } = new ObservableCollection<ActivityViewModel>();
+        public List<ActivityViewModel> Activities { get; set; }
     }
 }

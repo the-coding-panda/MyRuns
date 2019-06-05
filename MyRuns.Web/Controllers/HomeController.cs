@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MyRuns.Web.Auth;
 using MyRuns.Web.Models;
+using MyRuns.Web.Services;
 using StravaSharp;
 
 namespace MyRuns.Web.Controllers
@@ -14,25 +15,22 @@ namespace MyRuns.Web.Controllers
     {
         private readonly IHttpContextAccessor _context;
         private IConfiguration _configuration;
+        private readonly ApiService _apiService;
 
         public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _context = httpContextAccessor;
             _configuration = configuration;
+            _apiService = new ApiService();
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
             if (authenticator.IsAuthenticated)
             {
-                var client = new Client(authenticator);
-                var activities = await client.Activities.GetAthleteActivities();
-                foreach (var activity in activities)
-                {
-                    viewModel.Activities.Add(new ActivityViewModel(activity));
-                }
+                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, DistanceType.FiveKilometers));
             }
             return View(viewModel);
         }
