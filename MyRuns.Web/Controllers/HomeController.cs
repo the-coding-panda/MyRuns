@@ -24,13 +24,16 @@ namespace MyRuns.Web.Controllers
             _apiService = new ApiService();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string distance = "TenKilometers")
         {
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
+
+            Enum.TryParse(distance, out DistanceType selectedDistance);
+
             if (authenticator.IsAuthenticated)
             {
-                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, DistanceType.FiveKilometers));
+                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance));
             }
             return View(viewModel);
         }

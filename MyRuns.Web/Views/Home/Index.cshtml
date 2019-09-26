@@ -5,25 +5,56 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
     <h1>StravaSharp</h1>
     <p class="lead">This is a dummy web sample to give some hint about getting started with the library.</p>
-    <p>Setup your app's credentials in Config.cs!</p>
     <p>@Html.ActionLink("Activities", "List", "Home", new { @class = "btn btn-primary" })</p>
 </div>
 
-@{
-    foreach (var activity in Model.Activities)
-    {
-                <div class="card" style="width: 40rem;">
-                    <div class="card-block">
-                        <h4 class="card-title">@activity.Time</h4>
-                        <p class="card-text">@activity.Name</p>
-                        <p>@activity.Distance <i>@activity.Start</i></p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="row">
+    
+    <div class="col-8">
+        @{
+            foreach (var activity in Model.Activities)
+            {
+
+
+                <!-- Card -->
+                <div class="card" style="margin-bottom:15px">
+
+                    <!-- Card content -->
+                    <div class="card-body">
+                        @if (activity.Treadmill)
+                        {
+                            <button type="button" class="float-right btn btn-outline-indigo btn-rounded btn-sm waves-effect">
+                                Treadmill
+                            </button>
+                        }
+
+                        <!-- Title -->
+                        <h4 class="card-title">@activity.Time (@activity.Name)</h4>
+                        <!-- Text -->
+                        <p class="card-text">
+                            @activity.Distance <i>@activity.Start</i><br />
+
+                        </p>
+
                     </div>
+
                 </div>
-    }
-}
+                <!-- Card -->
+
+
+
+            }
+
+        }
+    </div>
+    <div class="col-4">
+        <a href="@Url.Action("Index", "Home", new { distance = "FiveKilometers" })" class="btn btn-default btn-lg btn-block"><i class="fas fa-running"></i> 5k</a>
+        <a href="@Url.Action("Index", "Home", new { distance = "TenKilometers" })" class="btn btn-primary btn-lg btn-block"><i class="fas fa-running"></i> 10k</a>
+        <a href="@Url.Action("Index", "Home", new { distance = "HalfMarathon" })" class="btn btn-success btn-lg btn-block"><i class="fas fa-running"></i> Half Marathon</a>
+        <a href="@Url.Action("Index", "Home", new { distance = "Marathon" })" class="btn btn-indigo  btn-lg btn-block"><i class="fas fa-running"></i> Marathon</a>
+    </div>
+
+   
+</div>

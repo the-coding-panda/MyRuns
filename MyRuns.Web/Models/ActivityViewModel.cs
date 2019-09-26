@@ -31,5 +31,7 @@ namespace MyRuns.Web.Models
                     return $"{_summary.Distance} m";
             }
         }
+
+        public bool Treadmill => _summary.Trainer;
     }
 }
