@@ -45,13 +45,13 @@ namespace MyRuns.Web.Services
             switch (distanceType)
             {
                 case DistanceType.FiveKilometers:
-                    return distance > 4500 && distance < 5500;
+                    return distance > 4800 && distance < 5500;
                 case DistanceType.TenKilometers:
-                    return distance > 9500 && distance < 10500;
+                    return distance > 9800 && distance < 10500;
                 case DistanceType.HalfMarathon:
-                    return distance > 210500 && distance < 211500;
+                    return distance > 21000 && distance < 21500;
                 case DistanceType.Marathon:
-                    return distance > 420500 && distance < 422500;
+                    return distance > 42000 && distance < 42250;
                 default:
                     return false;
             }
