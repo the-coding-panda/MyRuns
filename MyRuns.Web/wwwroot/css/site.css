@@ -54,3 +54,26 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+
+/* Card Override styles
+-------------------------------------------------- */
+
+.card-title {
+    background: #2bbbad;
+    margin-top: -1.25rem;
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    color: white;
+    height: 4rem;
+    padding: 0.85rem;
+}
+
+.jumbotron.jumbotron-fluid {
+    margin-top: 2rem;
+    padding: 4rem;
+}
+
+.btn-tread {
+    margin-top: -0.2rem !important;
+}
