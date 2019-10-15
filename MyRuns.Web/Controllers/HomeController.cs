@@ -47,7 +47,7 @@ namespace MyRuns.Web.Controllers
                 ClientId = _configuration["ClientId"],
                 ClientSecret = _configuration["ClientSecret"],
                 RedirectUri = redirectUrl,
-                Scope = "view_private",
+                Scope = "activity:read_all",
             };
             var client = new StravaClient(new RequestFactory(), config);
 
