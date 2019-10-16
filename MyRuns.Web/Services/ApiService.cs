@@ -1,4 +1,5 @@
-﻿using MyRuns.Web.Models;
+﻿using Microsoft.Extensions.Caching.Memory;
+using MyRuns.Web.Models;
 using StravaSharp;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,34 @@ namespace MyRuns.Web.Services
 {
     public class ApiService
     {
+        private readonly IMemoryCache _cache;
+
+        public ApiService(IMemoryCache cache)
+        {
+            _cache = cache;
+        }
+        
         public IList<ActivityViewModel> GetActivities(Authenticator authenticator, DistanceType distanceType)
         {
             var viewModel = new List<ActivityViewModel>();
 
             var client = new Client(authenticator);
+            List<ActivitySummary> activities = GetActivities(client);
+
+            viewModel.AddRange(activities
+                    .Where(r => FilterDistance(r.Distance, distanceType))
+                    .OrderBy(r => r.ElapsedTime)
+                    .Select(r => new ActivityViewModel(r)));
+
+            return viewModel;
+        }
+
+        private List<ActivitySummary> GetActivities(Client client)
+        {
+            if (_cache.TryGetValue($"Activities", out List<ActivitySummary> cachedActivities))
+            {
+                return cachedActivities;
+            }
 
             var activities = new List<ActivitySummary>();
 
@@ -31,13 +55,8 @@ namespace MyRuns.Web.Services
                 page++;
 
             }
-
-            viewModel.AddRange(activities
-                    .Where(r => FilterDistance(r.Distance, distanceType))
-                    .OrderBy(r=>r.ElapsedTime)
-                    .Select(r => new ActivityViewModel(r)));
-
-            return viewModel;
+            _cache.Set<List<ActivitySummary>>("Activities", activities);
+            return activities;
         }
 
         private bool FilterDistance(float distance, DistanceType distanceType)

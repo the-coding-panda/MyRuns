@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using MyRuns.Web.Auth;
 using MyRuns.Web.Models;
@@ -15,19 +16,22 @@ namespace MyRuns.Web.Controllers
     {
         private readonly IHttpContextAccessor _context;
         private IConfiguration _configuration;
+        private readonly IMemoryCache _cache;
         private readonly ApiService _apiService;
 
-        public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IMemoryCache cache)
         {
             _context = httpContextAccessor;
             _configuration = configuration;
-            _apiService = new ApiService();
+            _cache = cache;
+            _apiService = new ApiService(_cache);
         }
 
         public IActionResult Index(string distance = "TenKilometers")
         {
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
+
 
             Enum.TryParse(distance, out DistanceType selectedDistance);
 
