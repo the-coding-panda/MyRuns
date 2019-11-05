@@ -27,7 +27,7 @@ namespace MyRuns.Web.Controllers
             _apiService = new ApiService(_cache);
         }
 
-        public IActionResult Index(string distance = "TenKilometers")
+        public IActionResult Index(string distance = "TenKilometers", bool includeTreadmill = false)
         {
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
@@ -37,7 +37,7 @@ namespace MyRuns.Web.Controllers
 
             if (authenticator.IsAuthenticated)
             {
-                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance));
+                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, includeTreadmill));
             }
             return View(viewModel);
         }

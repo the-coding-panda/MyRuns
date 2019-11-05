@@ -17,7 +17,7 @@ namespace MyRuns.Web.Services
             _cache = cache;
         }
         
-        public IList<ActivityViewModel> GetActivities(Authenticator authenticator, DistanceType distanceType)
+        public IList<ActivityViewModel> GetActivities(Authenticator authenticator, DistanceType distanceType, bool includeTreadmill)
         {
             var viewModel = new List<ActivityViewModel>();
 
@@ -26,7 +26,9 @@ namespace MyRuns.Web.Services
 
             viewModel.AddRange(activities
                     .Where(r => FilterDistance(r.Distance, distanceType))
+                    .Where(r=>r.Trainer == includeTreadmill)
                     .OrderBy(r => r.ElapsedTime)
+                    .Take(10)
                     .Select(r => new ActivityViewModel(r)));
 
             return viewModel;
