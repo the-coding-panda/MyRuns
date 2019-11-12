@@ -17,16 +17,15 @@ namespace MyRuns.Web.Services
             _cache = cache;
         }
         
-        public IList<ActivityViewModel> GetActivities(Authenticator authenticator, DistanceType distanceType, bool includeTreadmill)
+        public IList<ActivityViewModel> GetActivities(Authenticator authenticator, DistanceType distanceType, RunType runType)
         {
             var viewModel = new List<ActivityViewModel>();
-
             var client = new Client(authenticator);
             List<ActivitySummary> activities = GetActivities(client);
 
             viewModel.AddRange(activities
                     .Where(r => FilterDistance(r.Distance, distanceType))
-                    .Where(r=>r.Trainer == includeTreadmill)
+                    .WhereIf(FilterRunTypes(runType).HasValue, r => r.Trainer == FilterRunTypes(runType))
                     .OrderBy(r => r.ElapsedTime)
                     .Take(10)
                     .Select(r => new ActivityViewModel(r)));
@@ -34,6 +33,19 @@ namespace MyRuns.Web.Services
             return viewModel;
         }
 
+        private bool? FilterRunTypes(RunType runType)
+        {
+            switch (runType)
+            {
+                case RunType.TreadmillOnly:
+                    return true;
+                case RunType.RunsOnly:
+                    return false;
+                default:
+                    return null;
+            }
+        }
+        
         private List<ActivitySummary> GetActivities(Client client)
         {
             if (_cache.TryGetValue($"Activities", out List<ActivitySummary> cachedActivities))
@@ -76,7 +88,7 @@ namespace MyRuns.Web.Services
                 default:
                     return false;
             }
-
         }
+
     }
 }

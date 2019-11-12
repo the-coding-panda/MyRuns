@@ -35,15 +35,28 @@
             {
                 <p class="lead"> Happy Running! 🏃‍♂🏅🎉</p>
                 <br />
-                <a href="@Url.Action("Index", "Home", new { distance = "FiveKilometers", includeTreadmill = false })" class="btn btn-default btn-lg btn-distance"><i class="fas fa-running"></i> 5k</a>
-                <a href="@Url.Action("Index", "Home", new { distance = "TenKilometers", includeTreadmill = false })" class="btn btn-primary btn-lg btn-distance"><i class="fas fa-running"></i> 10k</a>
-                <a href="@Url.Action("Index", "Home", new { distance = "HalfMarathon", includeTreadmill = false })" class="btn btn-success btn-lg btn-distance"><i class="fas fa-running"></i> Half Marathon</a>
-                <a href="@Url.Action("Index", "Home", new { distance = "Marathon", includeTreadmill = false })" class="btn btn-indigo  btn-lg btn-distance"><i class="fas fa-running"></i> Marathon</a>
-                <br /><!-- Default unchecked -->
-                <div class="form-check pl-0">
-                    <input id="includeTreadmill" class="form-check-input" type="checkbox" data-toggle="toggle" data-onstyle="primary" data-offstyle="indigo" data-width="111">
-                    <label for="stackedCheck1" class="form-check-label">Include Treadmill</label>
-                </div>            
+                <a href="@Url.Action("Index", "Home", new { distance = "FiveKilometers", runType = "RunsOnly" })" class="btn btn-default btn-lg btn-distance"><i class="fas fa-running"></i> 5k</a>
+                <a href="@Url.Action("Index", "Home", new { distance = "TenKilometers", runType = "RunsOnly" })" class="btn btn-primary btn-lg btn-distance"><i class="fas fa-running"></i> 10k</a>
+                <a href="@Url.Action("Index", "Home", new { distance = "HalfMarathon", runType = "RunsOnly" })" class="btn btn-success btn-lg btn-distance"><i class="fas fa-running"></i> Half Marathon</a>
+                <a href="@Url.Action("Index", "Home", new { distance = "Marathon", runType = "RunsOnly" })" class="btn btn-indigo  btn-lg btn-distance"><i class="fas fa-running"></i> Marathon</a>
+                <br />
+
+                <div class="radio-controls">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="RunsOnly" name="runningFilters" value="RunsOnly">
+                        <label class="custom-control-label" for="RunsOnly">Just runs</label>
+                    </div>
+
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="Mixed" name="runningFilters" value="Mixed">
+                        <label class="custom-control-label" for="Mixed">Include Treadmill</label>
+                    </div>
+
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="TreadmillOnly" name="runningFilters" value="TreadmillOnly">
+                        <label class="custom-control-label" for="TreadmillOnly">Treadmill only</label>
+                    </div>
+                </div>
             }
             else
             {

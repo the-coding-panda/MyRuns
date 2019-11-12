@@ -4,19 +4,36 @@
 // Write your JavaScript code.
 
 $(function () {
-    $('#includeTreadmill').change(function () {
 
-    var distanceButtons = $('.btn-distance');
+    let queryString = new URLSearchParams(window.location.search);
 
-    for (var i = 0; i < distanceButtons.length; i++) {
+    if (queryString.has('runType')) {
+        let runType = queryString.get('runType');
+        setDistanceButtons(runType);
+        $("input[name=runningFilters]").val([runType]);
+    }
+    else {
+        $("input[name=runningFilters]").val(["RunsOnly"]);
+    }
+    
+    $('.custom-control-input').change(function () {
 
-        var button = distanceButtons[i];
+        var radioSelected = $('input[name=runningFilters]:checked').val();
+        setDistanceButtons(radioSelected);        
+    });
 
-        var currentUrl = button.href;
-        var url = new URL(currentUrl);
-        url.searchParams.set("includeTreadmill", $(this).prop('checked')); // setting your param
-        button.href = url.href;
+    function setDistanceButtons(runTypeValue) {
+        var distanceButtons = $('.btn-distance');
+
+        for (var i = 0; i < distanceButtons.length; i++) {
+
+            var button = distanceButtons[i];
+
+            var currentUrl = button.href;
+            var url = new URL(currentUrl);
+            url.searchParams.set("runType", runTypeValue); // setting your param
+            button.href = url.href;
 
         }
-    });
+    }
 });

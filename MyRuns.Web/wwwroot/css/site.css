@@ -77,3 +77,11 @@ body {
 .btn-tread {
     margin-top: -0.2rem !important;
 }
+
+/* Front page form
+-------------------------------------------------- */
+
+.radio-controls {
+    padding-left: .4rem;
+    padding-top: .8rem;
+}

@@ -27,17 +27,18 @@ namespace MyRuns.Web.Controllers
             _apiService = new ApiService(_cache);
         }
 
-        public IActionResult Index(string distance = "TenKilometers", bool includeTreadmill = false)
+        public IActionResult Index(string distance = "TenKilometers", string runType = "RunsOnly")
         {
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
 
 
             Enum.TryParse(distance, out DistanceType selectedDistance);
+            Enum.TryParse(runType, out RunType selectedRunType);
 
             if (authenticator.IsAuthenticated)
             {
-                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, includeTreadmill));
+                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, selectedRunType));
             }
             return View(viewModel);
         }
