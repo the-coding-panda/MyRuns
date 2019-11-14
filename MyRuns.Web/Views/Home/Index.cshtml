@@ -3,28 +3,6 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@functions{ 
-    string RenderPosition(int i)
-    {
-        if (i > 2)
-        {
-            return string.Empty;
-        }
-        else if(i == 0)
-        {
-            return "🥇 ";
-        }
-        else if(i == 1)
-        {
-            return "🥈 ";
-        }
-        else if (i == 2)
-        {
-            return "🥉 ";
-        }
-        return string.Empty;
-    }
-}
 
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -66,46 +44,10 @@
 
         </div>
     </div>
-<div class="row">
-    
-    <div class="col-12">
-        @{
-            int i = 0;
-            foreach (var activity in Model.Activities)
-            {
+    <div class="row" id="activities">
+        
+            @{Html.RenderPartial("_Activities", Model);}
 
 
-                <!-- Card -->
-                <div class="card" style="margin-bottom:15px">
 
-                    <!-- Card content -->
-                    <div class="card-body">
-                        @if (activity.Treadmill)
-                        {
-                            <button class="btn btn-default btn-deep-orange float-right btn-sm btn-tread">Treadmill <i class="fas fa-dumbbell"></i></button>
-                        }
-
-                        <!-- Title -->
-                        <h3 class="card-title">@RenderPosition(i)@activity.Time </h3>
-                        <!-- Text -->
-                        <p class="card-text">
-                            <h4><strong>@activity.Name</strong></h4>
-                            <h5>@activity.Distance</h5>
-                            <h5>@activity.Start</h5>
-
-                        </p>
-
-                    </div>
-
-                </div>
-                <!-- Card -->
-
-
-                i++;
-            }
-
-        }
     </div>
-
-   
-</div>

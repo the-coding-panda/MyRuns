@@ -43,6 +43,22 @@ namespace MyRuns.Web.Controllers
             return View(viewModel);
         }
 
+        public IActionResult _Activities(string distance = "TenKilometers", string runType = "RunsOnly")
+        {
+            var authenticator = CreateAuthenticator();
+            var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
+
+
+            Enum.TryParse(distance, out DistanceType selectedDistance);
+            Enum.TryParse(runType, out RunType selectedRunType);
+
+            if (authenticator.IsAuthenticated)
+            {
+                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, selectedRunType));
+            }
+            return PartialView(viewModel);
+        }
+
         Authenticator CreateAuthenticator()
         {
             var redirectUrl = $"{Request.Scheme}://{Request.Host.Host}:{Request.Host.Port}/Home/Callback";
