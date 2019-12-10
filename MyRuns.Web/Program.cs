@@ -19,12 +19,6 @@ namespace MyRuns.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .ConfigureLogging(logging =>
-            {
-                logging.ClearProviders();
-                logging.AddConsole();
-                logging.AddAzureWebAppDiagnostics();
-            })
                 .UseStartup<Startup>();
     }
 }
