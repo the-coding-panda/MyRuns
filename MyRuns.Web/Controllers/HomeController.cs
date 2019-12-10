@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MyRuns.Web.Auth;
 using MyRuns.Web.Models;
 using MyRuns.Web.Services;
@@ -18,17 +19,20 @@ namespace MyRuns.Web.Controllers
         private IConfiguration _configuration;
         private readonly IMemoryCache _cache;
         private readonly ApiService _apiService;
+        private readonly ILogger _logger;
 
-        public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IMemoryCache cache)
+        public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration, IMemoryCache cache, ILogger<HomeController> logger)
         {
             _context = httpContextAccessor;
             _configuration = configuration;
             _cache = cache;
             _apiService = new ApiService(_cache);
+            _logger = logger;
         }
 
         public IActionResult Index(string distance = "TenKilometers", string runType = "RunsOnly")
         {
+            _logger.LogInformation("Homepage was requested");
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
 
@@ -45,6 +49,7 @@ namespace MyRuns.Web.Controllers
 
         public IActionResult _Activities(string distance = "TenKilometers", string runType = "RunsOnly")
         {
+
             var authenticator = CreateAuthenticator();
             var viewModel = new HomeViewModel(authenticator.IsAuthenticated);
 
@@ -54,6 +59,8 @@ namespace MyRuns.Web.Controllers
 
             if (authenticator.IsAuthenticated)
             {
+                _logger.LogInformation("Nice, we are auth");
+
                 viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, selectedRunType));
             }
             return PartialView(viewModel);
@@ -61,18 +68,27 @@ namespace MyRuns.Web.Controllers
 
         Authenticator CreateAuthenticator()
         {
-            var redirectUrl = $"{Request.Scheme}://{Request.Host.Host}:{Request.Host.Port}/Home/Callback";
-            var config = new RestSharp.Portable.OAuth2.Configuration.RuntimeClientConfiguration
+            try
             {
-                IsEnabled = false,
-                ClientId = _configuration["ClientId"],
-                ClientSecret = _configuration["ClientSecret"],
-                RedirectUri = redirectUrl,
-                Scope = "activity:read"
-            };
-            var client = new StravaClient(new RequestFactory(), config);
+                var redirectUrl = $"{Request.Scheme}://{Request.Host.Host}:{Request.Host.Port}/Home/Callback";
+                var config = new RestSharp.Portable.OAuth2.Configuration.RuntimeClientConfiguration
+                {
+                    IsEnabled = false,
+                    ClientId = _configuration["ClientId"],
+                    ClientSecret = _configuration["ClientSecret"],
+                    RedirectUri = redirectUrl,
+                    Scope = "activity:read"
+                };
+                var client = new StravaClient(new RequestFactory(), config);
 
-            return new Authenticator(_context, client);
+                return new Authenticator(_context, client);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw;
+            }
+            
         }
 
         public async Task<ActionResult> List()
