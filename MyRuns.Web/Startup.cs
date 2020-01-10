@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.AzureAppServices;
+using Serilog;
 
 namespace MyRuns.Web
 {
@@ -30,9 +31,9 @@ namespace MyRuns.Web
 
             services.AddDistributedMemoryCache();
             services.AddSession();
-
+            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.Configure<AzureFileLoggerOptions>(Configuration.GetSection("AzureLogging"));
+            //services.Configure<AzureFileLoggerOptions>(Configuration.GetSection("AzureLogging"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,9 +52,8 @@ namespace MyRuns.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSerilogRequestLogging();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseSession();
 
             app.UseEndpoints(endpoints =>

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using RestSharp.Portable;
 using RestSharp.Portable.OAuth2;
 using RestSharp.Portable.OAuth2.Infrastructure;
-
+using Serilog;
 
 namespace MyRuns.Web
 {
@@ -46,19 +46,18 @@ namespace MyRuns.Web
 
         public async Task<bool> OnPageLoaded(Uri uri)
         {
-            if (uri.AbsoluteUri.StartsWith(Client.Configuration.RedirectUri))
-            {
-                Debug.WriteLine("Navigated to redirect url.");
-                var parameters = uri.Query.Remove(0, 1).ParseQueryString(); // query portion of the response
-                await Client.GetUserInfo(parameters);
+            Log.Information($"This is the absolute: {uri.AbsoluteUri}");
+            Log.Information("Navigated to redirect url.");
+            var parameters = uri.Query.Remove(0, 1).ParseQueryString(); // query portion of the response
+            await Client.GetUserInfo(parameters);
 
-                if (!string.IsNullOrEmpty(Client.AccessToken))
-                {
-                    AccessToken = Client.AccessToken;
-                    return true;
-                }
+            if (!string.IsNullOrEmpty(Client.AccessToken))
+            {
+                AccessToken = Client.AccessToken;
+                return true;
             }
 
+            Log.Information($"think its empty, {Client.AccessToken}");
             return false;
         }
 
