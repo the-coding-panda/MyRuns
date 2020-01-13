@@ -41,10 +41,6 @@ html {
   min-height: 100%;
 }
 
-body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
-}
 .footer {
   position: absolute;
   bottom: 0;
@@ -76,7 +72,7 @@ body {
     }
 
 .jumbotron.jumbotron-fluid {
-    margin-top: 2rem;
+    margin-top: 4rem;
     padding: 4rem;
 }
 
