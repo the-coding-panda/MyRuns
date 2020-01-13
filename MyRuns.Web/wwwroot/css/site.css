@@ -59,6 +59,10 @@ html {
         color: #2bbbad;
         font-weight:bold;
     }
+
+.container {
+    margin-bottom: 4rem;
+}
     /* Card Override styles
 -------------------------------------------------- */
     .card-title {
