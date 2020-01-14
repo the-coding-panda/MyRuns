@@ -91,3 +91,7 @@ html {
     padding-left: .4rem;
     padding-top: .8rem;
 }
+
+.btn.btn-lg.sign-out {
+    padding: 1rem;
+}

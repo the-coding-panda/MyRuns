@@ -19,7 +19,7 @@ namespace MyRuns.Web.Models
 
         public string Time => TimeSpan.FromSeconds(_summary.ElapsedTime).ToString();
 
-        public string Start => _summary.StartDate.ToString("yyyy.MM.dd hh:mm");
+        public string Start => _summary.StartDate.ToString("dddd, dd MMMM yyyy");
 
         public string Distance
         {

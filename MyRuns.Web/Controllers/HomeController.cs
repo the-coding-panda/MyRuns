@@ -105,6 +105,13 @@ namespace MyRuns.Web.Controllers
             await authenticator.OnPageLoaded(new Uri(Request.GetDisplayUrl()));
             return RedirectToAction("Index");
         }
+
+        public IActionResult SignOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
