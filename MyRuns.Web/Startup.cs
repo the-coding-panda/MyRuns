@@ -33,7 +33,6 @@ namespace MyRuns.Web
             services.AddSession();
             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.Configure<AzureFileLoggerOptions>(Configuration.GetSection("AzureLogging"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

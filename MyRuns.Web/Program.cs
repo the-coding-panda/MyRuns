@@ -19,7 +19,7 @@ namespace MyRuns.Web
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
             .Enrich.FromLogContext()
-            .WriteTo.File(new RenderedCompactJsonFormatter(), @"A:\logs\log.ndjson")
+            .WriteTo.File(new RenderedCompactJsonFormatter(), @"C:\Logs\MyRuns\log.ndjson")
             .CreateLogger();
 
             try

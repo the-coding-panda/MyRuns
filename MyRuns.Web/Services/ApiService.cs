@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using MyRuns.Web.Models;
+using Serilog;
 using StravaSharp;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,11 @@ namespace MyRuns.Web.Services
         
         private List<ActivitySummary> GetActivities(Client client)
         {
-            if (_cache.TryGetValue($"Activities", out List<ActivitySummary> cachedActivities))
+
+            var getCurrent = client.Athletes.GetCurrent().Result;
+            Log.Information($"New User getting activities {getCurrent.FirstName} {getCurrent.LastName}");
+
+            if (_cache.TryGetValue($"Activities_{getCurrent.Id}", out List<ActivitySummary> cachedActivities))
             {
                 return cachedActivities;
             }
@@ -69,7 +74,7 @@ namespace MyRuns.Web.Services
                 page++;
 
             }
-            _cache.Set<List<ActivitySummary>>("Activities", activities);
+            _cache.Set<List<ActivitySummary>>($"Activities_{getCurrent.Id}", activities);
             return activities;
         }
 

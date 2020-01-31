@@ -46,8 +46,6 @@ namespace MyRuns.Web
 
         public async Task<bool> OnPageLoaded(Uri uri)
         {
-            Log.Information($"This is the absolute: {uri.AbsoluteUri}");
-            Log.Information("Navigated to redirect url.");
             var parameters = uri.Query.Remove(0, 1).ParseQueryString(); // query portion of the response
             await Client.GetUserInfo(parameters);
 
@@ -57,7 +55,6 @@ namespace MyRuns.Web
                 return true;
             }
 
-            Log.Information($"think its empty, {Client.AccessToken}");
             return false;
         }
 
