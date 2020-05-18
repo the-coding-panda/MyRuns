@@ -55,14 +55,25 @@ html {
     font-size: 5rem;
 }
 
+@media (max-width: 768px) {
+    .headline {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .btn.btn-lg {
+        width:100%;
+    }
+}
     .period {
         color: #2bbbad;
-        font-weight:bold;
+        font-weight: bold;
     }
 
-.container {
-    margin-bottom: 4rem;
-}
+    .container {
+        margin-bottom: 0rem;
+    }
     /* Card Override styles
 -------------------------------------------------- */
     .card-title {
@@ -75,23 +86,32 @@ html {
         padding: 0.85rem;
     }
 
-.jumbotron.jumbotron-fluid {
-    margin-top: 4rem;
-    padding: 4rem;
-}
+    .jumbotron.jumbotron-fluid {
+        margin-top: 4rem;
+        padding: 4rem;
+    }
 
-.btn-tread {
-    margin-top: -0.2rem !important;
-}
+    .btn-tread {
+        margin-top: -0.2rem !important;
+    }
 
-/* Front page form
+    /* Front page form
 -------------------------------------------------- */
 
-.radio-controls {
-    padding-left: .4rem;
-    padding-top: .8rem;
-}
+    .radio-controls {
+        padding-left: .4rem;
+        padding-top: .8rem;
+    }
 
-.btn.btn-lg.sign-out {
-    padding: 1rem;
-}
+    .btn.btn-lg.sign-out {
+        padding: 1rem;
+    }
+
+    .loading-msg {
+        text-align: center;
+    }
+
+        .loading-msg .text-msg {
+            font-size: 1.6rem;
+            padding-left: .5rem;
+        }

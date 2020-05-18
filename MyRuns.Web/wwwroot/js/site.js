@@ -23,6 +23,11 @@ $(function () {
     else {
         distance = 'TenKilometers';
     }
+
+    var radioSelected = $('input[name=runningFilters]:checked').val();
+
+    //Initial load
+    init(distance, radioSelected);
     
     $('.custom-control-input').change(function () {
 
@@ -44,6 +49,12 @@ $(function () {
         refreshActivities(distance, radioSelected);
     });
 
+    function init(distance, radioSelected) {
+
+        refreshActivities(distance, radioSelected);
+
+    }
+
     function setDistanceButtons(runTypeValue) {
         var distanceButtons = $('.btn-distance');
 
@@ -62,10 +73,14 @@ $(function () {
     function refreshActivities(distance, runType) {
         var activities = $("#activities");
 
-        activities.fadeOut(500);
+        activities.fadeOut(500, function () {
+            $(this).empty();
+        });
 
         setTimeout(function () {
-            $("#activities").load('Home/_Activities?distance=' + distance + '&runType=' + runType).fadeIn(500);
+            $("#activities").load('Home/_Activities?distance=' + distance + '&runType=' + runType, null, function () {
+                $('.loading-msg').css("visibility", "hidden");
+            }).fadeIn(500);
         }, 500);
         
     }

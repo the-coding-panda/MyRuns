@@ -40,10 +40,10 @@ namespace MyRuns.Web.Controllers
             Enum.TryParse(distance, out DistanceType selectedDistance);
             Enum.TryParse(runType, out RunType selectedRunType);
 
-            if (authenticator.IsAuthenticated)
-            {
-                viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, selectedRunType));
-            }
+            //if (authenticator.IsAuthenticated)
+            //{
+            //    viewModel.Activities.AddRange(_apiService.GetActivities(authenticator, selectedDistance, selectedRunType));
+            //}
             return View(viewModel);
         }
 
